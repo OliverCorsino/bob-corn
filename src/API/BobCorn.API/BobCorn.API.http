@@ -1,0 +1,6 @@
+@BobCorn.API_HostAddress = http://localhost:5193
+
+GET {{BobCorn.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
