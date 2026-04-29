@@ -1,7 +1,6 @@
 ﻿using BobCorn.Application.Features.Auth.Commands.Login;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BobCorn.API.Controllers
