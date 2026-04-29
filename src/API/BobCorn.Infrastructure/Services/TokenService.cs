@@ -68,9 +68,9 @@ namespace BobCorn.Infrastructure.Services
             var expiry = int.Parse(_configuration["Jwt:RefreshTokenExpiryDays"]!);
 
             await connection.ExecuteAsync(
-                @"INSERT INTO Refreshtokens (UserId, Token, ExpriresAt)
+                @"INSERT INTO Refreshtokens (UserId, Token, ExpiresAt)
                   VALUES (@UserId, @Token, @ExpiresAt)",
-                new { UserId = userId, Token = token, ExpriresAt = DateTime.UtcNow.AddDays(expiry) });
+                new { UserId = userId, Token = token, ExpiresAt = DateTime.UtcNow.AddDays(expiry) });
         }
 
         public async Task<bool> ValidateRefreshTokenAsync(Guid userId, string token, CancellationToken cancellationToken = default)

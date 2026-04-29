@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "BobCornAngular": {
+    "web-app": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -26,12 +26,7 @@
             ],
             "styles": [
               "src/styles.css"
-            ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            ]
           },
           "configurations": {
             "production": {
@@ -61,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "BobCornAngular:build:production"
+              "buildTarget": "web-app:build:production"
             },
             "development": {
-              "buildTarget": "BobCornAngular:build:development"
+              "buildTarget": "web-app:build:development"
             }
           },
           "defaultConfiguration": "development"

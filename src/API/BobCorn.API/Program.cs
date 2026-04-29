@@ -1,8 +1,10 @@
 using BobCorn.Application;
 using BobCorn.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 
+var angularApp = "AngularApp";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -36,6 +38,21 @@ builder.Services
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(angularApp, policy =>
+    {
+        policy
+            .WithOrigins(
+                "http://localhost:4200",
+                "https://localhost:4200"
+            )
+            .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+            .WithHeaders("Authorization", "Content-Type", "Accept")
+            .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -46,6 +63,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(angularApp);
 
 app.UseAuthentication();
 

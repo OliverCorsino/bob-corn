@@ -25,7 +25,7 @@ namespace BobCorn.Infrastructure.Persistence
             await using var connection = new SqlConnection(_connectionString);
 
             return await connection.QuerySingleOrDefaultAsync<User>(
-                "SELECT * FROM Users WHERE Id = @Email AND IsActive = 1", new { Email = email });
+                "SELECT * FROM Users WHERE Email = @Email AND IsActive = 1", new { Email = email });
         }
 
         public async Task<User?> GetById(Guid id, CancellationToken cancellationToken = default)
