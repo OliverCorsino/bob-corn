@@ -1,11 +1,13 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
-import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authInterceptor } from './infrastructure/interceptors/auth.interceptor';
+import { routes } from './app.routes';
 import { AuthRepository, TokenPort } from './core/domain/repositories/auth.repository';
+import { ProductRepository } from './core/domain/repositories/product.repository';
 import { AuthHttpRepository } from './infrastructure/http/auth-http.repository';
+import { ProductHttpRepository } from './infrastructure/http/product-http.repository';
+import { authInterceptor } from './infrastructure/interceptors/auth.interceptor';
 import { TokenStorageService } from './infrastructure/storage/token-storage.service';
 
 export const appConfig: ApplicationConfig = {
@@ -15,7 +17,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
 
-    { provide: AuthRepository, useClass: AuthHttpRepository},
-    { provide: TokenPort, useClass: TokenStorageService}
+    { provide: AuthRepository, useClass: AuthHttpRepository },
+    { provide: TokenPort, useClass: TokenStorageService },
+    { provide: ProductRepository, useClass: ProductHttpRepository },
   ]
 };

@@ -3,7 +3,7 @@ import { UserCredentials, AuthTokens } from "../../core/domain/models/auth.model
 import { AuthRepository } from "../../core/domain/repositories/auth.repository";
 import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../../enviroments/enviroment";
+import { environment } from "../../environments/environment";
 
 @Injectable({ providedIn: 'root' })
 export class AuthHttpRepository extends AuthRepository {

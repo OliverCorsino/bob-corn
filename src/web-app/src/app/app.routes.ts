@@ -4,13 +4,18 @@ import { publicGuard, authGuard } from './shared/guards/auth.guard';
 export const routes: Routes = [
     {
         path: 'auth',
-        canActivate: [publicGuard],   // redirect if already logged in
+        canActivate: [publicGuard],
         loadChildren: () => import('./presentation/auth/auth.routes').then(m => m.AUTH_ROUTES),
     },
     {
         path: 'dashboard',
-        canActivate: [authGuard],     // protected route
+        canActivate: [authGuard],
         loadComponent: () => import('./presentation/dashboard/dashboard').then(m => m.Dashboard),
+    },
+    {
+        path: 'products',
+        canActivate: [authGuard],
+        loadComponent: () => import('./presentation/purchase-product/purchase-product').then(m => m.PurchaseProduct),
     },
     { path: '', redirectTo: 'auth', pathMatch: 'full' },
     { path: '**', redirectTo: 'auth' },

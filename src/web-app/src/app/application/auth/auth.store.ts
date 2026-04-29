@@ -26,8 +26,8 @@ export class AuthStore {
 
     constructor() {
         effect(() => {
-            if (this.isAuthenticated()) {
-                this.#router.navigateByUrl('/dashboard');
+            if (!this.isAuthenticated()) {
+                this.#router.navigateByUrl('/auth');
             }
         });
     }
