@@ -13,4 +13,8 @@ export class ProductHandler {
     purchaseCorn() {
         return this.productRepository.purchaseCorn();
     }
+
+    shipProducts(productIds: string[]) {
+        return this.productRepository.shipProducts(productIds);
+    }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, Signal, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -31,8 +31,10 @@ export class Dashboard implements OnInit {
   readonly messageService = inject(MessageService);
 
   products = signal<Product[]>([]);
-  isLoading = signal<boolean>(false);
+  isBuying = signal<boolean>(false);
+  isShipping = signal<boolean>(false);
   statuses!: any[];
+  selectedProducts = signal<Product[]>([]);
 
   ngOnInit(): void {
     this.getProducts();
@@ -79,16 +81,32 @@ export class Dashboard implements OnInit {
   }
 
   buy() {
-    this.isLoading.set(true);
+    this.isBuying.set(true);
     this.productHandler.purchaseCorn().subscribe({
       next: (result: any) => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
-        this.isLoading.set(false);
+        this.isBuying.set(false);
         this.getProducts();
       },
       error: (err: any) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error });
-        this.isLoading.set(false);
+        this.isBuying.set(false);
+      }
+    });
+  }
+
+  shipSelectedProducts() {
+    this.isShipping.set(true);
+    var productToShip = this.selectedProducts().map(p => p.id);
+    this.productHandler.shipProducts(productToShip).subscribe({
+      next: (result: any) => {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
+        this.isShipping.set(false);
+        this.getProducts();
+      },
+      error: (err: any) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error });
+        this.isShipping.set(false);
       }
     });
   }

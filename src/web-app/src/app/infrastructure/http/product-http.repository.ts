@@ -7,15 +7,19 @@ import { environment } from "../../environments/environment";
 
 @Injectable({ providedIn: 'root' })
 export class ProductHttpRepository extends ProductRepository {
-    readonly #http = inject(HttpClient);
-    readonly #apiUrl = `${environment.apiUrl}/products`;
+    readonly http = inject(HttpClient);
+    readonly apiUrl = `${environment.apiUrl}/products`;
 
     getProducts(): Observable<Product[]> {
-        return this.#http.get<Product[]>(this.#apiUrl);
+        return this.http.get<Product[]>(this.apiUrl);
     }
 
     purchaseCorn(): Observable<void> {
-        return this.#http.post<void>(`${this.#apiUrl}/purchase`, {});
+        return this.http.post<void>(`${this.apiUrl}/purchase`, {});
+    }
+
+    shipProducts(productIds: string[]): Observable<void> {
+        return this.http.post<void>(`${this.apiUrl}/ship`, { productIds });
     }
 
 }

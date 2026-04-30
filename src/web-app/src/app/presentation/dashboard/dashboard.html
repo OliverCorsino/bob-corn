@@ -15,20 +15,27 @@
         <div class="card">
             <p-table #dt2 [value]="products()" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
                 [paginator]="true" [size]="'large'" [tableStyle]="{ 'min-width': '75rem' }" [scrollable]="true"
-                scrollHeight="flex">
+                scrollHeight="flex" [(selection)]="selectedProducts">
                 <ng-template #caption>
-                    <div class="flex">
+                    <div class="flex justify-between">
                         <p-button icon="pi pi-shopping-cart" label="Buy fresh corn!" severity="info"
-                            [loading]="isLoading()" (onClick)="buy()" />
+                            [loading]="isBuying()" (onClick)="buy()" />
+
+                        <p-button icon="pi pi-shopping-cart" label="Ship Selected" severity="success" [disabled]="!selectedProducts() || selectedProducts().length === 0"
+                            [loading]="isShipping()" (onClick)="shipSelectedProducts()" />
                     </div>
                 </ng-template>
                 <ng-template #header>
                     <tr>
+                        <th style="width: 4rem">
+                            <p-tableHeaderCheckbox />
+                        </th>
                         <th>Purchased Date</th>
                         <th>Shipped Date</th>
                         <th>Status</th>
                     </tr>
                     <tr>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th>
@@ -47,6 +54,9 @@
                 </ng-template>
                 <ng-template #body let-product>
                     <tr>
+                        <td>
+                            <p-tableCheckbox [value]="product" />
+                        </td>
                         <td>
                             {{ product.purchasedAt + 'Z' | date: 'dd-MM-yyyy' }}
                         </td>
