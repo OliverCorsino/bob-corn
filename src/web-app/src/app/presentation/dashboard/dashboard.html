@@ -10,7 +10,7 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="card">
-            <p-table #dt2 [value]="products" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
+            <p-table #dt2 [value]="products()" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
                 [paginator]="true" [tableStyle]="{ 'min-width': '75rem' }">
                 <ng-template #caption>
                     <div class="flex">
@@ -19,30 +19,36 @@
                 </ng-template>
                 <ng-template #header>
                     <tr>
-                        <th style="width:22%">Purchased Date</th>
-                        <th style="width:22%">Shipped Date</th>
-                        <th style="width:12%">Shipped</th>
+                        <th>Purchased Date</th>
+                        <th>Shipped Date</th>
+                        <th>Status</th>
                     </tr>
                     <tr>
                         <th></th>
                         <th></th>
                         <th>
-                            <p-columnFilter type="boolean" field="verified"></p-columnFilter>
+                            <p-columnFilter field="isShipped" matchMode="equals" [showMenu]="false">
+                                <ng-template #filter let-value let-filter="filterCallback">
+                                    <p-select [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="Select Status" [showClear]="true">
+                                        <ng-template let-option #item>
+                                            <p-tag [value]="option.label" [severity]="getSeverity(option.value)" />
+                                        </ng-template>
+                                    </p-select>
+                                </ng-template>
+                            </p-columnFilter>
                         </th>
                     </tr>
                 </ng-template>
                 <ng-template #body let-product>
                     <tr>
                         <td>
-                            {{ product.purchasedAt | date: 'medium' }}
+                            {{ product.purchasedAt + 'Z' | date: 'dd-MM-yyyy' }}
                         </td>
                         <td>
-                            {{ product.shippedAt | date: 'medium' }}
+                            {{ product.shippedAt ? (product.shippedAt + 'Z' | date: 'dd-MM-yyyy') : '-' }}
                         </td>
                         <td>
-                            <i class="pi" [class.text-green-500]="product.verified"
-                                [class.pi-check-circle]="product.verified" [class.text-red-500]="!product.verified"
-                                [class.pi-times-circle]="!product.verified"></i>
+                            <p-tag [value]="getShippingStatusLabel(product)" [severity]="getSeverity(product.isShipped)" />
                         </td>
                     </tr>
                 </ng-template>

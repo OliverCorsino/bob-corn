@@ -17,7 +17,10 @@ import { Product } from '../../core/domain/models/product.model';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, SelectModule, IconFieldModule, InputIconModule, MultiSelectModule, TableModule, TagModule, InputTextModule, FormsModule, ButtonModule, ToastModule],
+  imports: [CommonModule, SelectModule, IconFieldModule,
+    InputIconModule, MultiSelectModule, TableModule,
+    TagModule, InputTextModule, FormsModule,
+    ButtonModule, ToastModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,17 +31,22 @@ export class Dashboard implements OnInit {
   readonly authStore = inject(AuthStore);
   readonly messageService = inject(MessageService);
 
-  products!: Product[];
+  products = signal<Product[]>([]);
   isLoading = signal<boolean>(false);
+  statuses!: any[];
 
   ngOnInit(): void {
     this.getProducts();
+    this.statuses = [
+      { label: 'Not yet shipped', value: false },
+      { label: 'Shipped', value: true }
+    ];
   }
 
   private getProducts() {
     this.productHandler.getProducts().subscribe({
       next: (products) => {
-        this.products = products;
+        this.products.set(products);
         console.log('Products loaded:', products);
       },
       error: () => {
@@ -49,6 +57,27 @@ export class Dashboard implements OnInit {
 
   logout(): void {
     this.authStore.logout();
+  }
+
+  getShippingStatus(product: Product): string {
+    return product.isShipped ? 'shipped' : 'notYetShipped';
+  }
+
+  getShippingStatusLabel(product: Product): string {
+    return product.isShipped ? 'Shipped' : 'Not yet shipped';
+  }
+
+  getSeverity(status: boolean) {
+    switch (status) {
+      case true:
+        return 'success';
+
+      case false:
+        return 'info';
+
+      default:
+        return 'success';
+    }
   }
 
   buy() {
