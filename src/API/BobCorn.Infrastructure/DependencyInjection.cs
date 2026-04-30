@@ -14,6 +14,7 @@ namespace BobCorn.Infrastructure
 
             services.AddScoped<IUserRepository>(_ => new UserRepository(connectionString));
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IProductRepository>(_ => new ProductRepository(connectionString));
 
             return services;
         }
