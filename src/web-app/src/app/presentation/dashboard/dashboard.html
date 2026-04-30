@@ -1,32 +1,31 @@
-<div class="card">
-            <p-table
-                #dt2
-                [value]="products"
-                dataKey="id"
-                [rows]="10"
-                [rowsPerPageOptions]="[10, 25, 50]"
-                [loading]="loading"
-                [paginator]="true"
-                [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
-                [tableStyle]="{ 'min-width': '75rem' }"
-            >
+<div class="dashboard-container">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">Bob's Corn</div>
+            <button (click)="logout()" class="logout-btn">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="card">
+            <p-table #dt2 [value]="products" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
+                [paginator]="true" [tableStyle]="{ 'min-width': '75rem' }">
                 <ng-template #caption>
                     <div class="flex">
-                        <p-iconfield iconPosition="left" class="ml-auto">
-                            <p-inputicon>
-                                <i class="pi pi-search"></i>
-                            </p-inputicon>
-                            <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
-                        </p-iconfield>
+                        <p-button icon="pi pi-shopping-cart" label="Buy fresh corn!" severity="info" [loading]="isLoading()" (onClick)="buy()" />
                     </div>
                 </ng-template>
                 <ng-template #header>
                     <tr>
-                        <th style="width:22%">Agent</th>
-                        <th style="width:22%">Status</th>
-                        <th style="width:12%">Verified</th>
+                        <th style="width:22%">Purchased Date</th>
+                        <th style="width:22%">Shipped Date</th>
+                        <th style="width:12%">Shipped</th>
                     </tr>
                     <tr>
+                        <th></th>
+                        <th></th>
                         <th>
                             <p-columnFilter type="boolean" field="verified"></p-columnFilter>
                         </th>
@@ -35,16 +34,15 @@
                 <ng-template #body let-product>
                     <tr>
                         <td>
-                            {{ product.name }}
+                            {{ product.purchasedAt | date: 'medium' }}
                         </td>
                         <td>
-                            <i
-                                class="pi"
-                                [class.text-green-500]="product.verified"
-                                [class.pi-check-circle]="product.verified"
-                                [class.text-red-500]="!product.verified"
-                                [class.pi-times-circle]="!product.verified"
-                            ></i>
+                            {{ product.shippedAt | date: 'medium' }}
+                        </td>
+                        <td>
+                            <i class="pi" [class.text-green-500]="product.verified"
+                                [class.pi-check-circle]="product.verified" [class.text-red-500]="!product.verified"
+                                [class.pi-times-circle]="!product.verified"></i>
                         </td>
                     </tr>
                 </ng-template>
@@ -55,3 +53,5 @@
                 </ng-template>
             </p-table>
         </div>
+    </div>
+</div>
