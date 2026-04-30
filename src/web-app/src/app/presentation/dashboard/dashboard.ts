@@ -32,11 +32,16 @@ export class Dashboard implements OnInit {
   isLoading = signal<boolean>(false);
 
   ngOnInit(): void {
+    this.getProducts();
+  }
+
+  private getProducts() {
     this.productHandler.getProducts().subscribe({
       next: (products) => {
         this.products = products;
+        console.log('Products loaded:', products);
       },
-      error: (err) => {
+      error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load products.' });
       }
     });
@@ -58,6 +63,7 @@ export class Dashboard implements OnInit {
           life: 3000
         });
         this.isLoading.set(false);
+        this.getProducts();
       },
       error: (err: any) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to purchase corn.' });

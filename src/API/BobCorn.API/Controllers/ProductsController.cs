@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace BobCorn.API.Controllers
 {
@@ -35,7 +36,7 @@ namespace BobCorn.API.Controllers
         [HttpPost("purchase")]
         [Authorize(Roles = "Customer")]
         [EnableRateLimiting("BobCornRatePolicy")]
-        public IActionResult PurchaseCorn()
+        public async Task<IActionResult> PurchaseCorn()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -44,7 +45,18 @@ namespace BobCorn.API.Controllers
                 return Unauthorized();
             }
 
-            return Ok(new { message = "Corn purchased successfully."});
+            try
+            {
+                var command = new PurchaseProductCommand(Guid.Parse(userId));
+
+                await _sender.Send(command);
+
+                return Ok(new { message = "Corn purchased successfully." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

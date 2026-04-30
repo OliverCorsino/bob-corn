@@ -24,9 +24,12 @@ namespace BobCorn.Infrastructure.Persistence
             throw new NotImplementedException();
         }
 
-        public Task PurchaseAsync(PurchasedProduct purchase)
+        public async Task PurchaseAsync(Guid userId)
         {
-            throw new NotImplementedException();
+            await using var connection = new SqlConnection(_connectionString);
+
+            await connection.QueryAsync<PurchasedProduct>(
+                "INSERT INTO PurchasedProduct (UserId) VALUES (@UserId)", new { UserId = userId });
         }
     }
 }
