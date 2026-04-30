@@ -46,9 +46,12 @@
   align-items: flex-start;
   padding: 2rem 1rem;
   overflow-y: auto;
+  min-height: 0;
 }
 
 .card {
   width: 100%;
   max-width: 1400px;
+  display: flex;
+  flex-direction: column;
 }

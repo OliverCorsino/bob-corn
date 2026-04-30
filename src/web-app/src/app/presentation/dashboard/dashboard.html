@@ -11,10 +11,12 @@
     <div class="main-content">
         <div class="card">
             <p-table #dt2 [value]="products()" dataKey="id" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]"
-                [paginator]="true" [tableStyle]="{ 'min-width': '75rem' }">
+                [paginator]="true" [size]="'large'" [tableStyle]="{ 'min-width': '75rem' }" [scrollable]="true"
+                scrollHeight="flex">
                 <ng-template #caption>
                     <div class="flex">
-                        <p-button icon="pi pi-shopping-cart" label="Buy fresh corn!" severity="info" [loading]="isLoading()" (onClick)="buy()" />
+                        <p-button icon="pi pi-shopping-cart" label="Buy fresh corn!" severity="info"
+                            [loading]="isLoading()" (onClick)="buy()" />
                     </div>
                 </ng-template>
                 <ng-template #header>
@@ -29,7 +31,8 @@
                         <th>
                             <p-columnFilter field="isShipped" matchMode="equals" [showMenu]="false">
                                 <ng-template #filter let-value let-filter="filterCallback">
-                                    <p-select [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="Select Status" [showClear]="true">
+                                    <p-select [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)"
+                                        placeholder="Select Status" [showClear]="true">
                                         <ng-template let-option #item>
                                             <p-tag [value]="option.label" [severity]="getSeverity(option.value)" />
                                         </ng-template>
@@ -48,7 +51,8 @@
                             {{ product.shippedAt ? (product.shippedAt + 'Z' | date: 'dd-MM-yyyy') : '-' }}
                         </td>
                         <td>
-                            <p-tag [value]="getShippingStatusLabel(product)" [severity]="getSeverity(product.isShipped)" />
+                            <p-tag [value]="getShippingStatusLabel(product)"
+                                [severity]="getSeverity(product.isShipped)" />
                         </td>
                     </tr>
                 </ng-template>
