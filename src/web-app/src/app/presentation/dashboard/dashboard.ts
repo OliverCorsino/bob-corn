@@ -23,8 +23,7 @@ import { Product } from '../../core/domain/models/product.model';
     ButtonModule, ToastModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MessageService]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Dashboard implements OnInit {
   readonly productHandler = inject(ProductHandler);
@@ -47,7 +46,6 @@ export class Dashboard implements OnInit {
     this.productHandler.getProducts().subscribe({
       next: (products) => {
         this.products.set(products);
-        console.log('Products loaded:', products);
       },
       error: () => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load products.' });
@@ -84,18 +82,12 @@ export class Dashboard implements OnInit {
     this.isLoading.set(true);
     this.productHandler.purchaseCorn().subscribe({
       next: (result: any) => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Corn purchased successfully.',
-          key: 'br',
-          life: 3000
-        });
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
         this.isLoading.set(false);
         this.getProducts();
       },
       error: (err: any) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to purchase corn.' });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error });
         this.isLoading.set(false);
       }
     });

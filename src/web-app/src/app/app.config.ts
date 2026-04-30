@@ -3,6 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import Aura from '@primeuix/themes/aura';
+import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
 import { AuthRepository, TokenPort } from './core/domain/repositories/auth.repository';
@@ -30,5 +31,6 @@ export const appConfig: ApplicationConfig = {
     { provide: AuthRepository, useClass: AuthHttpRepository },
     { provide: TokenPort, useClass: TokenStorageService },
     { provide: ProductRepository, useClass: ProductHttpRepository },
+    MessageService,
   ]
 };
