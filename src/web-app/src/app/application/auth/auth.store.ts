@@ -47,7 +47,7 @@ export class AuthStore {
                 this.user.set(this.tokenPort.decodeUserInfo(tokens.accessToken));
                 this.#init();
                 this.isLoading.set(false);
-                this.router.navigateByUrl('/products');
+                this.router.navigateByUrl('/dashboard');
             }),
             catchError(err => {
                 const msg = err.error?.message ?? 'Invalid credentials.';

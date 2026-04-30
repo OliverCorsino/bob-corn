@@ -4,5 +4,5 @@ using System.Collections.Immutable;
 
 namespace BobCorn.Application.Features.PurchaseProduct
 {
-    public record GetPurchasedProductQuery(Guid userId) : IRequest<IImmutableList<PurchasedProduct>>;
+    public record GetPurchasedProductQuery(Guid userId) : IRequest<IEnumerable<PurchasedProduct>>;
 }

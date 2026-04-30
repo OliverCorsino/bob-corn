@@ -9,6 +9,10 @@ export class ProductHandler {
     readonly success = signal<string | null>(null);
     readonly error = signal<string | null>(null);
 
+    getProducts() {
+        return this.productRepository.getProducts();
+    }
+
     purchaseCorn(): void {
         this.isLoading.set(true);
         this.error.set(null);
