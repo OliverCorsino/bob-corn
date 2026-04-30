@@ -97,14 +97,16 @@ export class Dashboard implements OnInit {
 
   shipSelectedProducts() {
     this.isShipping.set(true);
-    var productToShip = this.selectedProducts().map(p => p.id);
-    this.productHandler.shipProducts(productToShip).subscribe({
+
+    this.productHandler.shipProducts(this.selectedProducts()).subscribe({
       next: (result: any) => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: result.message });
         this.isShipping.set(false);
         this.getProducts();
+        this.selectedProducts.set([]);
       },
       error: (err: any) => {
+        console.error(err);
         this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error });
         this.isShipping.set(false);
       }

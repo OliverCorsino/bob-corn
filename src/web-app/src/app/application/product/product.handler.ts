@@ -1,6 +1,7 @@
 import { inject, Injectable, signal } from "@angular/core";
 import { catchError, EMPTY, tap } from "rxjs";
 import { ProductRepository } from "../../core/domain/repositories/product.repository";
+import { Product } from "../../core/domain/models/product.model";
 
 @Injectable({ providedIn: 'root' })
 export class ProductHandler {
@@ -14,7 +15,7 @@ export class ProductHandler {
         return this.productRepository.purchaseCorn();
     }
 
-    shipProducts(productIds: string[]) {
-        return this.productRepository.shipProducts(productIds);
+    shipProducts(productsToShip: Product[]) {
+        return this.productRepository.shipProducts(productsToShip);
     }
 }

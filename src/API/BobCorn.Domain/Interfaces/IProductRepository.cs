@@ -6,6 +6,6 @@ namespace BobCorn.Domain.Interfaces
     {
         Task<IEnumerable<PurchasedProduct>> GetPastPurchaseAsync(Guid userId);
         Task PurchaseAsync(Guid userId);
-        Task MarkAsShippedAsycn(Guid purchaseId);
+        Task MarkAsShippedAsycn(IEnumerable<PurchasedProduct> productsToShip);
     }
 }

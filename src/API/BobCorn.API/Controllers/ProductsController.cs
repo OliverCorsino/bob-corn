@@ -58,5 +58,28 @@ namespace BobCorn.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("ship")]
+        [Authorize(Roles = "Customer")]
+        public async Task<IActionResult> ShipCorns([FromBody] ShipProductsCommand command)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            try
+            {
+                await _sender.Send(command);
+
+                return Ok(new { message = "Corns marked as shipped successfully." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

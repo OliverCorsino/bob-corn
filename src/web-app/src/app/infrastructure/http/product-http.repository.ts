@@ -18,8 +18,8 @@ export class ProductHttpRepository extends ProductRepository {
         return this.http.post<void>(`${this.apiUrl}/purchase`, {});
     }
 
-    shipProducts(productIds: string[]): Observable<void> {
-        return this.http.post<void>(`${this.apiUrl}/ship`, { productIds });
+    shipProducts(productsToShip: Product[]): Observable<void> {
+        return this.http.post<void>(`${this.apiUrl}/ship`, { productsToShip });
     }
 
 }

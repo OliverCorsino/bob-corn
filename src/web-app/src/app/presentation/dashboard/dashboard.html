@@ -55,7 +55,7 @@
                 <ng-template #body let-product>
                     <tr>
                         <td>
-                            <p-tableCheckbox [value]="product" />
+                            <p-tableCheckbox [disabled]="product.isShipped" [value]="product" />
                         </td>
                         <td>
                             {{ product.purchasedAt + 'Z' | date: 'dd-MM-yyyy' }}
