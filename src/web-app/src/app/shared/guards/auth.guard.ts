@@ -5,12 +5,9 @@ import { AuthStore } from '../../application/auth/auth.store';
 export const authGuard: CanActivateFn = () => {
     const authStore = inject(AuthStore);
     const router = inject(Router);
-    return authStore.isAuthenticated() || router.createUrlTree(['/auth/login']);
-};
-
-
-export const publicGuard: CanActivateFn = () => {
-    const authStore = inject(AuthStore);
-    const router = inject(Router);
-    return !authStore.isAuthenticated() || router.createUrlTree(['/dashboard']);
+    
+    if (!authStore.isAuthenticated()) {
+        return router.navigate(['/auth/login']);
+    }
+    return true;
 };
